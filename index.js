@@ -16,7 +16,32 @@ if (!PORT) {
 var app = express()
 app.use(morgan('dev'))
 
-var defaultMsg = "Don't worry, there are a lot of channels.  Here's the basics about some of the more frequented ones:\n*#announcements*:  For teamwide announcements regarding events, lab hours, forms to fill out, etc.\n*#communication*:  For general communication such as asking about lab hours or if someone has found your missing jacket.\n*#subteam*:  For subteam specific discussion.\n*#reflections*:  For general comments and reflection about team related things such as how a project went or how a decision was made.\n*#ideas*:  For new ideas that you want to bounce off of other people,  such as painting the lab.\n*#meta*:  For discussion about slack and slack usage.\n*#random*:  For random discussion that is somewhat related to robotics, school or current events.\n*#youdidntseethiscoming*:  For more random random discussion and memes."
+var defaultMessage = "Don't worry, there are a lot of channels.  Here's the basics about some of the more frequented ones:\n*#announcements*:  For teamwide announcements regarding events, lab hours, forms to fill out, etc.\n*#communication*:  For general communication such as asking about lab hours or if someone has found your missing jacket.\n*#subteam*:  For subteam specific discussion.\n*#reflections*:  For general comments and reflection about team related things such as how a project went or how a decision was made.\n*#ideas*:  For new ideas that you want to bounce off of other people, such as painting the lab.\n*#meta*:  For discussion about slack and slack usage.\n*#random*:  For random discussion that is somewhat related to robotics, school or current events.\n*#youdidntseethiscoming*:  For more random random discussion and memes."
+
+var helpMessage = "Sure!  The basic idea is that I can tell you about what different channels are for.  Type '/guidelines' for an overview, '/guidelines this' for info about the channel you are in, and '/guidelines [#channel]' for info about a specific channel.  Lastly, if I'm not working properly, please kindly let @dardeshna know."
+
+var channelMessages = {
+  "meta": "For discussion about slack and slack usage.",
+  "communication":  "For general communication such as asking about lab hours or if someone has found your missing jacket.",
+  "announcements":  "For teamwide announcements regarding events, lab hours, forms to fill out, etc.",
+  "reflections":  "For general comments and reflection about team related things such as how a project went or how a decision was made.",
+  "ideas":  "For new ideas that you want to bounce off of other people, such as painting the lab.",
+  "random":  "For random discussion that is somewhat related to robotics, school or current events.",
+  "youdidntseethiscoming":  "For more random random discussion and memes.",
+  "build":  "For discussion about build team happenings.",
+  "art":  "For discussion about art team happenings.",
+  "design":  "For discussion about design team happenings.",
+  "web":  "For discussion about web team happenings.",
+  "business":  "For discussion about business team happenings.",
+  "sw-announcements":  "For software team specific announcements.",
+  "sw-communication":  "For discussion about software team happenings.",
+  "competitiontalk":  "For discussions about competitions in general and broad competition logistics.",
+  "labmanagement":  "For discussion regarding something about the lab or lab management, such as a missing tool or plans for lab cleanup day.",
+  "photos":  "For photos documenting team 8 life and other fun things.",
+  "photography":   "For discussion amongst team photographers and file requests.",
+  "captains-2017":  "The core of team bureaucracy.",
+  "anime":  "For members to chat about anime stuff."
+}
 
 app.route('/slack/command')
   .get(function (req, res) {
@@ -30,7 +55,10 @@ app.route('/slack/command')
     var message
     
     if (req.body.text == "") {
-      message = defaultMsg
+      message = defaultMessage
+    }
+    else if (req.body.text == "help") {
+      message = helpMessage
     }
     else {
       var channel = req.body.text
@@ -40,12 +68,23 @@ app.route('/slack/command')
           channel = req.body.channel_name
       }
     
-      switch (channel) {
-        case "meta":  message = "*#meta*:  For discussion about slack and slack usage."
-        break;
-        case "communication":  message = "*#communication*:  For general communication such as asking about lab hours or if someone has found your missing jacket."
-        break;
-        default:  message = "Sorry, I don't know about that channel. :("
+      if (channel.substring(0, 1) == '#') { 
+        channel = channel.substring(1);
+      }
+            
+      if (channelMessages[channel] != undefined) {
+        if (Math.random() < 0.333) {
+          message = "Alright, see if this helps:\n*#"+channel+"*:  " +channelMessages[channel]
+        }
+        else if (Math.random() < 0.5) {
+          message = "Here's what I've got:\n*#"+channel+"*:  " +channelMessages[channel]
+        }
+        else {
+          message = "Okay, this is what I have:\n*#"+channel+"*:  " +channelMessages[channel]
+        }
+      }
+      else {
+        message = "I don't know anything about that channel, sorry friend.  _Sad days_ :disappointed:"
       }
     }
 
