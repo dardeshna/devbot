@@ -73,8 +73,11 @@ app.route('/slack/command')
       if (channel.substring(0, 1) == '#') { 
         channel = channel.substring(1);
       }
-            
-      if (channelMessages[channel] != undefined) {
+      
+      if (channel == "privategroup") {
+        message = "Uh oh, this is a private channel so I can't help out here.  Sorry :disappointed:"
+      }
+      else if (channelMessages[channel] != undefined) {
         if (Math.random() < 0.333) {
           message = "Alright, see if this helps:\n*#"+channel+"*:  " +channelMessages[channel]
         }
