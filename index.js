@@ -14,7 +14,7 @@ if (!PORT) {
 }
 
 var app = express()
-app.use(morgan('dev'))
+app.use(morgan('short'))
 
 var defaultMessage = "Don't worry, there are a lot of channels.  Here's the basics about some of the more frequented ones:\n*#announcements*:  For teamwide announcements regarding events, lab hours, forms to fill out, etc.\n*#communication*:  For general communication such as asking about lab hours or if someone has found your missing jacket.\n*#subteam*:  For subteam specific discussion.\n*#reflections*:  For general comments and reflection about team related things such as how a project went or how a decision was made.\n*#ideas*:  For new ideas that you want to bounce off of other people, such as painting the lab.\n*#meta*:  For discussion about slack and slack usage.\n*#random*:  For random discussion that is somewhat related to robotics, school or current events.\n*#youdidntseethiscoming*:  For more random random discussion and memes."
 
