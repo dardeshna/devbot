@@ -40,7 +40,8 @@ var channelMessages = {
   "photos":  "For photos documenting team 8 life and other fun things.",
   "photography":   "For discussion amongst team photographers and file requests.",
   "captains-2017":  "The core of team bureaucracy.",
-  "anime":  "For members to chat about anime stuff."
+  "anime":  "For members to chat about anime stuff.",
+  "buildseason-2017":  "For technical discussion and project logistics during build season."
 }
 
 app.route('/slack/command')
@@ -66,6 +67,7 @@ app.route('/slack/command')
       // Handle any help requests
       if (req.body.text == 'this') {
           channel = req.body.channel_name
+          console.log(channel);
       }
     
       if (channel.substring(0, 1) == '#') { 
