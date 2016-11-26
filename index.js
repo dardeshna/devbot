@@ -99,10 +99,6 @@ app.route('/slack/command')
     })
   })
 
-app.listen(PORT, function (err) {
-  if (err) {
-    return console.error('Error starting server: ', err)
-  }
-
+app.listen(PORT, function() {
   console.log('Server successfully started on port %s', PORT)
 })
